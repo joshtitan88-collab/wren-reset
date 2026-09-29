@@ -1,6 +1,8 @@
 # wren-reset
 
-Static pages for the Wren Hale / Company AI Architect offers. Hosted on GitHub Pages from `main` (root).
+Static pages for the Wren Hale / Company AI Architect offers, on GitHub Pages.
+
+Edit `main`. The `build-and-publish` workflow force-mirrors `main` to `gh-pages`, which is the Pages source, on every push. Do not commit to `gh-pages` directly; the next mirror overwrites it.
 
 | Path | Role |
 |---|---|
@@ -9,6 +11,6 @@ Static pages for the Wren Hale / Company AI Architect offers. Hosted on GitHub P
 | `dl-*/index.html` | Buyer download page (noindex). Set as the Stripe after-payment redirect for the $27 link. |
 | `dl-*/30-day-reset-v1.zip` | The file that page serves. |
 
-To go live with payments, replace each placeholder with the real Stripe Payment Link URL and push to `main`.
+To turn on payments, replace each placeholder with the real Stripe Payment Link URL and push to `main`.
 
 Buying the product is permission to download the zip. It is not permission to republish it.
