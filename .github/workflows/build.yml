@@ -1,0 +1,31 @@
+name: build-and-publish
+# The connector used to set this repo up can only commit text files, so the
+# site and buyer ZIP arrive as a base64 xz bundle (bundle/part-*.b64).
+# This job rebuilds them, commits the result to main, and mirrors main to
+# gh-pages, the GitHub Pages source. With no bundle it only mirrors.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rebuild from bundle
+        run: |
+          set -euo pipefail
+          if [ ! -d bundle ]; then echo "no bundle"; exit 0; fi
+          python3 -m venv /tmp/v
+          /tmp/v/bin/pip install -q reportlab==5.0.1
+          /tmp/v/bin/python tools/rebuild.py
+          git rm -rq bundle tools
+          git add -A
+          git config user.name "github-actions[bot]"
+          git config user.email "41898333+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Build site and buyer ZIP from bundle"
+          git push origin HEAD:main
+      - name: Mirror main to gh-pages
+        run: git push --force origin HEAD:gh-pages
